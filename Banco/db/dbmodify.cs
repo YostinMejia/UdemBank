@@ -6,6 +6,45 @@ namespace Banco
 	abstract class DbModify:DbValidation
 	{
 
+        public string Add_money_atm(double amount, string id_atm)
+        {
+            try
+            {
+                if (!(this.Validar_balance(amount, "1", "banco")))
+                {
+                    return "El banco no tiene saldo suficiente";
+                }
+
+                //Se establece conexión con la BD
+                Dbconnection conex = new Dbconnection();
+                var bdconnect = conex.establecerconexion();
+
+                //Se crea el objeto que tiene el metodo para correr los comandos mysql
+                MySqlCommand cmd = new MySqlCommand();
+                //Se le asigna la conexión a la base de datos para saber donde se ejecutarán los comandos
+                cmd.Connection = bdconnect;
+
+                //Se elimina el seleccionado mediante el id
+              
+
+                cmd.CommandText = "UPDATE atm SET balance =  balance + @amount WHERE  id = @id_atm ";
+                cmd.Parameters.AddWithValue("@amount", amount);
+                cmd.Parameters.AddWithValue("@id_atm", id_atm);
+
+                //Se ejecuta el comando
+                cmd.ExecuteNonQuery();
+
+                //Se cierra la conexión a la BD
+                bdconnect.Close();
+
+                return $"Se le sumo {amount} al atm con id {id_atm}";
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message);
+            }
+        }
+
 		public string Actualizar_balance(double amount, string sumar_restar,string id, string atm_customer_banco)
 		{
             try
