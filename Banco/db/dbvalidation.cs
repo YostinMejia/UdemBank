@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 
 namespace Banco
 {
-     class DbValidation
+    class DbValidation : Sesion
     {
-        public bool Login(string admin_customer,string user, string password)
+
+        public List<string> Atm_dispo(double amount, string city, string retirar_transferir)
         {
             try
             {
@@ -20,44 +22,59 @@ namespace Banco
                 //Se le asigna la conexión a la base de datos para saber donde se ejecutarán los comandos
                 cmd.Connection = bdconnect;
 
-                //Se usa Format porque retorna una copia del string y así se puede modificar la consulta a gusto
-                //Se guarda el comando
-                cmd.CommandText = string.Format("SELECT user, password FROM {0:D} ", admin_customer );
+                List<string> atm_disponibles = new List<string>();
 
-                //Se ejecuta el comando
+                //cmd.CommandText = "";
+
+                if (retirar_transferir == "retirar")
+                {
+                    //Se guarda el comando
+                    cmd.CommandText = "SELECT id, addres FROM atm WHERE city = @city AND balance >= @amount ";
+                    cmd.Parameters.AddWithValue("@city", city);
+                    cmd.Parameters.AddWithValue("@amount", amount);
+
+                }
+                else if (retirar_transferir == "transferir")
+                {
+                    //Se guarda el comando
+                    cmd.CommandText = "SELECT id, addres FROM atm WHERE city = @city";
+                    cmd.Parameters.AddWithValue("@city", city);
+          
+                }
+
+
+                // Se ejecuta el comando
                 cmd.ExecuteNonQuery();
                 MySqlDataReader rdr = cmd.ExecuteReader();
+                //Se cierra la lectura
 
-                bool coincide = false;
                 //Le las filas devueltas por la bd
                 while (rdr.Read())
                 {
-                    //pos 0 = user ---- pos 1 = password
-                    if (rdr[0].ToString() == user && password == rdr[1].ToString())
-                    {
-                        coincide = true;
-                    }
+                    atm_disponibles.Add(rdr[0].ToString());
+                    atm_disponibles.Add(rdr[1].ToString());
 
                 }
 
-                //Se cierra la lectura
+
                 rdr.Close();
 
                 //Se cierra la conexión a la BD
                 bdconnect.Close();
 
                 //Retorna si el valor es mayor o igual que su balance actual
-                return coincide;
+                return atm_disponibles;
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
-            }
+                List<string> atm_disponibles = new List<string>();
 
+                return atm_disponibles;
+            }
         }
-        public bool Validar_balance(int amount, string id, string  atm_customer_banco)
+        public bool Validar_balance(double amount, string id, string atm_customer_banco)
         {
             try
             {
@@ -73,10 +90,10 @@ namespace Banco
                 cmd.Connection = bdconnect;
 
                 atm_customer_banco = atm_customer_banco.ToLower();
-                
+
                 //Se guarda el comando
                 cmd.CommandText = string.Format("SELECT balance FROM {0:D} WHERE id  = {1:D} ", atm_customer_banco, id);
-               
+
                 //Se ejecuta el comando
                 cmd.ExecuteNonQuery();
                 MySqlDataReader rdr = cmd.ExecuteReader();
@@ -90,7 +107,7 @@ namespace Banco
                     actual_balance = Int32.Parse(rdr[0].ToString());
 
                 }
-                
+
                 //Se cierra la lectura
                 rdr.Close();
 
@@ -101,7 +118,7 @@ namespace Banco
                 return actual_balance >= amount;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
@@ -133,7 +150,8 @@ namespace Banco
                 {
                     //Se guarda el comando
                     cmd.CommandText = "UPDATE customer SET customer_type = @customer_type WHERE id = @id";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.Add("@id", MySqlDbType.Int32);
+                    cmd.Parameters["@id"].Value = id;
                     cmd.Parameters.AddWithValue("@customer_type", customer_type);
                 }
 
@@ -166,5 +184,6 @@ namespace Banco
                 return ex.Message;
             }
         }
+
     }
 }

@@ -14,15 +14,9 @@ namespace Banco
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("¡Bienvenido care mondá! \n el menú del Banco 'UDEMBANK' tenemos varias opciones ");
-            Console.WriteLine("Indique el número de la opción que desea realizar");
-            Console.WriteLine("1) Iniciar sesión \n 2) Registrarse \n 3) Ninguna de las anteriores porque soy rebelde ");
-            string opcion = Console.ReadLine();
-            if ( opcion == "1")
-            {
-
-            }
             
+            //Flujo comenzar = new Flujo();   
+             
 
 
             //DbManager dbmanager = new DbManager();
@@ -33,10 +27,15 @@ namespace Banco
             //Console.WriteLine(dbValidation.Login("admin", "rhlm", "brrraa"));
             //Console.WriteLine(dbValidation.Validar_balance(3, "2", "atm"));
             //Console.WriteLine(dbValidation.Tipo_cliente("1"));
-            Admin adm = new Admin();
+            //DbValidation validacion = new DbValidation();
+            //Console.WriteLine(validacion.Validar_balance(12, "2", "atm"));
+            //Console.WriteLine(validacion.Atm_dispo(123, "medellin", "retirar")[1]);
+
+            Bank banco = new Bank();
+            Console.WriteLine(banco.Withdraw_money_atm(12, "1", "medellin"));
             //Console.WriteLine(adm.Validar_balance(3,"2","atm"));
             //Console.WriteLine(adm.Actualizar_balance(10,"restar","2","atm"));
-            Console.WriteLine(adm.Delete_customer_atm_admin();
+            //Console.WriteLine(adm.Delete_customer_atm_admin();
           
         }
     }

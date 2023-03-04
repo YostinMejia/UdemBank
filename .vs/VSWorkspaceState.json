@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Banco"
+    "\\Banco",
+    "\\Banco\\db",
+    "\\Banco\\usuarios"
   ],
-  "SelectedNode": "\\Banco\\dbmanager.cs",
+  "SelectedNode": "\\Banco\\db\\dbvalidation.cs",
   "PreviewInSolutionExplorer": true
 }

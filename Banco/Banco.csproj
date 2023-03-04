@@ -98,11 +98,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="admin.cs" />
-    <Compile Include="dbvalidation.cs" />
-    <Compile Include="dbconnection.cs" />
-    <Compile Include="dbmanager.cs" />
-    <Compile Include="dbmodify.cs" />
+    <Compile Include="usuarios\admin.cs" />
+    <Compile Include="banco.cs" />
+    <Compile Include="flujo.cs" />
+    <Compile Include="usuarios\customer.cs" />
+    <Compile Include="db\sesion.cs" />
+    <Compile Include="db\dbvalidation.cs" />
+    <Compile Include="db\dbconnection.cs" />
+    <Compile Include="db\dbmanager.cs" />
+    <Compile Include="db\dbmodify.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

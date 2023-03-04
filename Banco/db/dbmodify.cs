@@ -6,7 +6,7 @@ namespace Banco
 	abstract class DbModify:DbValidation
 	{
 
-		public string Actualizar_balance(int amount, string sumar_restar,string id, string atm_customer_banco)
+		public string Actualizar_balance(double amount, string sumar_restar,string id, string atm_customer_banco)
 		{
             try
             {
