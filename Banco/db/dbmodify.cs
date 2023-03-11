@@ -72,7 +72,7 @@ namespace Banco
                     //Primero se necesita validar el balance
                     
 
-                    cmd.CommandText = string.Format("UPDATE {0} SET balance =  (balance + {1:D}) WHERE  id = {2} ",atm_customer_banco, amount,id);
+                    cmd.CommandText = string.Format("UPDATE {0} SET balance =  (balance + {1}) WHERE  id = {2} ",atm_customer_banco, amount,id);
 
                 }
                 else if (sumar_restar == "restar")
