@@ -92,19 +92,19 @@ namespace Banco
                 atm_customer_banco = atm_customer_banco.ToLower();
 
                 //Se guarda el comando
-                cmd.CommandText = string.Format("SELECT balance FROM {0:D} WHERE id  = {1:D} ", atm_customer_banco, id);
+                cmd.CommandText = string.Format("SELECT balance FROM {0} WHERE id  = {1:D} ", atm_customer_banco, id);
 
                 //Se ejecuta el comando
                 cmd.ExecuteNonQuery();
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
                 //Se asigna un balance inicial de 0 para comparar al final
-                int actual_balance = 0;
+                double actual_balance = 0;
 
                 //Le las filas devueltas por la bd
                 while (rdr.Read())
                 {
-                    actual_balance = Int32.Parse(rdr[0].ToString());
+                    actual_balance = Double.Parse(rdr[0].ToString());
 
                 }
 

@@ -49,11 +49,7 @@ namespace Banco
 		{
             try
             {
-                if (!(this.Validar_balance(amount, id, atm_customer_banco)))
-                {
-                    return "Saldo insuficiente";
-                }
-
+              
                 //Se establece conexión con la BD
                 Dbconnection conex = new Dbconnection();
                 var bdconnect = conex.establecerconexion();
@@ -71,13 +67,16 @@ namespace Banco
 
                 if (sumar_restar == "sumar")
                 {
+                    //string comando = string.Format("UPDATE {0:nq} SET balance =  balance + {1:n} WHERE  id = {2:n} ", atm_customer_banco, amount, id);
+
                     //Primero se necesita validar el balance
-                    cmd.CommandText = String.Format("UPDATE {0:D} SET balance =  balance + {1:D} WHERE  id = {2:D} ", atm_customer_banco, amount, id);
+                    
+                    cmd.CommandText = string.Format("UPDATE {0} SET balance =  balance + {1} WHERE  id = {2} ",atm_customer_banco, amount,id);
                 }
                 else if (sumar_restar == "restar")
                 {
                     //Primero se necesita validar el balance
-                    cmd.CommandText = String.Format("UPDATE {0:D} SET balance =  balance - {1:D} WHERE  id = {2:D} ", atm_customer_banco, amount, id);
+                    cmd.CommandText = string.Format("UPDATE {0} SET balance =  balance - {1} WHERE  id = {2} ",atm_customer_banco, amount, id);
                 }
                 else
                 {
@@ -116,7 +115,7 @@ namespace Banco
 
                 //Se elimina el seleccionado mediante el id
 
-                cmd.CommandText = String.Format ("DELETE FROM {0:D} WHERE id = {1:D}", customer_atm_admin);
+                cmd.CommandText = string.Format ("DELETE FROM {0} WHERE id = {1}", customer_atm_admin, id);
 
                 //Se ejecuta el comando
                 cmd.ExecuteNonQuery();

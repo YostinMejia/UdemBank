@@ -134,7 +134,7 @@ namespace Banco
 
             }
             //Eliminar Atm
-            else if (opcion == "2")
+            else if (opcion == "eliminar")
             {
                 Console.WriteLine("Id del atm que quiere eliminar");
                 string id = Console.ReadLine();

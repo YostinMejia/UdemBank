@@ -11,7 +11,7 @@ namespace Banco
         public Customer(string user, string password) {
 
             this.id = this.Login("customer", user, password);
-
+            
             if (id.Length > 0)
             {
                 this.sesion = true;
@@ -37,6 +37,7 @@ namespace Banco
             Bank banco = new Bank();
             return banco.Withdraw_money_atm(amount,this.id, city);
         }
+
         public string Money_transfer_virtual(double amount, string id_beneficiary)
         {
             Bank banco = new Bank();

@@ -49,7 +49,7 @@ namespace Banco
             else if(! (this.Validar_balance(amount, id_customer, "customer"))){
                 return "esta pobre socio no tiene suficiente dinero";
             }
-
+            
             this.Actualizar_balance(amount, "restar", id_atm, "atm");
 
             return this.Actualizar_balance(amount, "restar", id_customer, "customer") + "\n Recoja esa chichigua y cuidao lo roban";
@@ -67,10 +67,10 @@ namespace Banco
             {
                 return "esta pobre socio no tiene suficiente dinero";
             }
-
+            
             this.Actualizar_balance(amount, "sumar", id_beneficiary, "customer");
-
-            return this.Actualizar_balance(amount_comision, "restar", id_sender, "customer") + "La transacción se realizo con exito";
+            
+            return this.Actualizar_balance(amount_comision, "restar", id_sender, "customer") ;
 
         }
 
