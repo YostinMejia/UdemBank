@@ -87,7 +87,7 @@ namespace Banco
                             Console.WriteLine("En cual ciudad está?");
                             string ciudad = Console.ReadLine();
 
-                            return customer.Add_money_own_account(cantidad);
+                            return customer.Add_money_own_account(cantidad, ciudad);
 
                         }
                         else
@@ -121,6 +121,7 @@ namespace Banco
 
 
                 }
+                //iniciar como administrador
                 else if (tipo_usuario == "2")
                 {
 
@@ -128,17 +129,15 @@ namespace Banco
                     string user = Console.ReadLine();
                     Console.WriteLine("Ingrese su contraseña");
                     string password = Console.ReadLine();
-                    Admin administrador = new Admin();
-                    administrador.Login("admin", user, password);
 
-                    //Inicio de sesión correcto
+                    Admin administrador = new Admin();
+                    administrador.iniciar_sesion(user, password);
+                    Console.WriteLine(administrador.sesion);
+                    //Si no se pudo iniciar sesión correctamente
                     if (!administrador.sesion)
                     {
-                        return "Usuario o contraseña invalida";
-
+                        return "Contraseña o usuario invalido";
                     }
-
-                    administrador.welcome();
 
                     //opciones disponibles como administrador
                     //C reate

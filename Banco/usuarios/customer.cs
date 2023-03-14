@@ -43,10 +43,10 @@ namespace Banco
             Bank banco = new Bank();
             return banco.Money_transfer_virtual(amount, this.id, id_beneficiary);
         }
-        public string Add_money_own_account(double amount)
+        public string Add_money_own_account(double amount, string city)
         {
             Bank banco = new Bank();
-            return banco.Money_transfer_virtual(amount, this.id, this.id);
+            return banco.Add_money_own_account(amount, city, this.id);
         }
 
 

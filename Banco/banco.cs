@@ -7,7 +7,10 @@ namespace Banco
     {
 
         private double Comision(string id_customer, double amount)
+
         {
+
+
             if (this.Tipo_cliente(id_customer, "get") == "regular")
             {
                 return amount * 0.015;
@@ -52,7 +55,7 @@ namespace Banco
             
             this.Actualizar_balance(amount, "restar", id_atm, "atm");
 
-            return this.Actualizar_balance(amount, "restar", id_customer, "customer") + "\n Recoja esa chichigua y cuidao lo roban";
+            return this.Actualizar_balance(amount, "restar", id_customer, "customer");
 
         }
 
@@ -60,7 +63,7 @@ namespace Banco
         {
             //Se le suma la comisión
             double amount_comision = amount + this.Comision(id_sender, amount);
-
+            Console.WriteLine(amount_comision);
             //primero se verifica que el remitente tenga el dinero
 
             if (!(this.Validar_balance(amount_comision, id_sender, "customer")))
@@ -68,9 +71,10 @@ namespace Banco
                 return "esta pobre socio no tiene suficiente dinero";
             }
             
+            //Se suma y se resta el balance de los involucrados
             this.Actualizar_balance(amount, "sumar", id_beneficiary, "customer");
-            
-            return this.Actualizar_balance(amount_comision, "restar", id_sender, "customer") ;
+            //string mensaje = this.Actualizar_balance(amount, "restar", id_sender, "customer");
+            return this.Actualizar_balance(amount_comision, "restar", id_sender, "customer");
 
         }
 
@@ -118,30 +122,53 @@ namespace Banco
             //Se resta el dinero de la cuenta del banco
             this.Actualizar_balance(amount, "restar", "1","banco");
             //Se resta el dinero de la cuenta de quien transfiere el dinero
-            this.Actualizar_balance(amount, "restar", id_sender, "customer");
+            this.Actualizar_balance(amount_comision, "restar", id_sender, "customer");
 
             return "La transacción se realizo con exito";
 
         }
-
-        public string Deposit_money_atm(double amount, string id_customer)
+        public string Add_money_own_account(double amount, string city, string id_beneficiary)
         {
-            
+            //Se le resta la comisión
+            double amount_comision = amount - this.Comision(id_beneficiary, amount);
+
+            List<string> atm_disponibles = this.Atm_dispo(amount, city, "transferir");
+            for (var i = 0; i < atm_disponibles.Count; i += 2)
+            {
+                Console.WriteLine("ID: " + atm_disponibles[i] + " - Direccion: " + atm_disponibles[i + 1]);
+            }
+
+
+            Console.WriteLine("Ingrese el id del atm del que desea retirar dinero");
+            string id_atm = Console.ReadLine();
+
+            if (!(atm_disponibles.Contains(id_atm)))
+            {
+                return "Id seleccionado invalido";
+
+            }
+
+            return this.Actualizar_balance(amount_comision, "sumar", id_beneficiary, "customer");
+
+        }
+
+        public string Deposit_money_atm(double amount, string city, string id_atm)
+        {
+
+
             //primero se verifica que el banco tenga la cantidad de dinero
             if (!(this.Validar_balance(amount, "1", "banco")))
             {
                 return "El banco está en quiebra y no tiene plata pa esa transacción";
             }
 
-
-            //Se suma el dinero a la cuenta del receptor
-            this.Actualizar_balance(amount, "sumar", id_customer, "customer");
           
             //Se resta el dinero de la cuenta del banco
             this.Actualizar_balance(amount, "restar", "1", "banco");
-   
 
-            return "La transacción se realizo con exito";
+            //Se suma el dinero a la cuenta del receptor
+
+            return this.Actualizar_balance(amount, "sumar", id_atm, "atm"); ;
 
 
         }

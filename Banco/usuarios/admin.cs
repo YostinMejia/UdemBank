@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Bcpg;
+using System;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 
@@ -7,19 +8,25 @@ namespace Banco
     class Admin:DbManager
     {
         //En el flujo se verifica si se inicia sesion
+
+
         public bool sesion = false;
-        public void welcome()
+        private string id;
+
+        public void iniciar_sesion(string user, string password)
         {
-            Console.WriteLine("Bienvenid@ Admin\n 1) Manipular ATM \n 2) Manipular clientes \n 3) Manipular admin ");
-            string opcion = Console.ReadLine(); 
-            if(opcion == "3" ) {
-                Console.WriteLine("Ingrese el id del admin por eliminar");
-                string id = Console.ReadLine();
-                this.Delete_customer_atm_admin(id,"admin");
+
+            this.id = this.Login("admin", user, password);
+
+            if (id.Length > 0)
+            {
+                this.sesion = true;
+
             }
+
         }
 
- 
+
        public string Manipular_admin(string opcion)
        {
             //Crear un nuevo admin

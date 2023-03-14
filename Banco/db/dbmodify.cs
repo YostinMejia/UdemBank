@@ -49,7 +49,12 @@ namespace Banco
 		{
             try
             {
-              
+                //si la transacción es menor de 10 mil la comisión quedará con decimales, lo cual no soporta el sistema
+                if (amount < 10000)
+                {
+                    return "La transacción debe tener un valor de mínimo $10000 ";
+                }
+
                 //Se establece conexión con la BD
                 Dbconnection conex = new Dbconnection();
                 var bdconnect = conex.establecerconexion();
@@ -93,6 +98,7 @@ namespace Banco
                 bdconnect.Close();
 
                 return $"Se {sumar_restar} el balance del {atm_customer_banco} con el id {id}";
+
             }catch (Exception ex)
             {
                 return ex.Message;

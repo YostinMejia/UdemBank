@@ -22,8 +22,8 @@ namespace Banco
 
                 //Se usa Format porque retorna una copia del string y así se puede modificar la consulta a gusto
                 //Se guarda el comando
-                cmd.CommandText = string.Format("SELECT user, password, id FROM {0:D} ", admin_customer);
-
+                cmd.CommandText = string.Format("SELECT user, password, id FROM {0} WHERE user = '{1}' and password = '{2}' ", admin_customer, user, password);
+                Console.WriteLine(admin_customer);
                 //Se ejecuta el comando
                 cmd.ExecuteNonQuery();
                 MySqlDataReader rdr = cmd.ExecuteReader();
@@ -33,10 +33,10 @@ namespace Banco
                 while (rdr.Read())
                 {
                     //pos 0 = user ---- pos 1 = password
-                    if (rdr[0].ToString() == user && password == rdr[1].ToString())
-                    {
-                        coincide = rdr[2].ToString();
-                    }
+                    
+                    Console.WriteLine($"{rdr[0]} {rdr[1]} {rdr[2]}");
+                    coincide = rdr[2].ToString();
+                    
 
                 }
 
